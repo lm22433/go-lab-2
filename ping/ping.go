@@ -8,18 +8,36 @@ import (
 )
 
 func foo(channel chan string) {
-	// TODO: Write an infinite loop of sending "pings" and receiving "pongs"
+	initMsg := "ping"
+	println("Foo is sending:", initMsg)
+	channel <- initMsg
 
+	for {
+		msg := <-channel
+		println("Foo has received:", msg)
+		println()
+
+		newMsg := "ping"
+		println("Foo is sending:", newMsg)
+		channel <- newMsg
+	}
 }
 
 func bar(channel chan string) {
-	// TODO: Write an infinite loop of receiving "pings" and sending "pongs"
+	for {
+		msg := <-channel
+		println("Bar has received:", msg)
+
+		newMsg := "pong"
+		println("Bar is sending:", newMsg)
+		channel <- newMsg
+	}
 }
 
 func pingPong() {
-	// TODO: make channel of type string and pass it to foo and bar
-	go foo(nil) // Nil is similar to null. Sending or receiving from a nil chan blocks forever.
-	go bar(nil)
+	channel := make(chan string)
+	go foo(channel)
+	go bar(channel)
 	time.Sleep(500 * time.Millisecond)
 }
 
