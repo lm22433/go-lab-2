@@ -23,16 +23,21 @@ func sendMessages(receiver chan string) {
 
 func main() {
 	// Create a channel for sending and receiving strings.
-	messages := make(chan string)
+	// Modify the make func call so that the messages channel
+	// is a buffered channel of size 3.
+	// This changes the behaviour of the program because there is space
+	// in the buffer for all messages to be sent amd fill the buffer concurrently.
+	// As a result, instead of having it sent and received in order, they are all
+	// sent at once and received at once.
+	messages := make(chan string, 3)
 
 	// Start a new goroutine that will send some messages.
 	go sendMessages(messages)
 
 	// Receive the 3 messages sent by the goroutine.
-	// Modified so that only 4 messages are received from the go function.
-	// When receiving 4 messages, we get deadlock because all goroutines are asleep.
+	// When modified to receive 4 messages, we get deadlock because all goroutines are asleep.
 	// Will just endlessly wait for a response that is never sent.
-	for i := 0; i < 4; i++ {
+	for i := 0; i < 3; i++ {
 		// Wait 1s between each receive.
 		time.Sleep(1 * time.Second)
 		receivedMessage := <-messages
