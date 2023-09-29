@@ -17,7 +17,7 @@ func sendMessages(receiver chan string) {
 	for _, m := range messages {
 		fmt.Println("sendMessages is sending:", m)
 		receiver <- m
-		
+
 	}
 }
 
@@ -29,7 +29,8 @@ func main() {
 	go sendMessages(messages)
 
 	// Receive the 3 messages sent by the goroutine.
-	for i := 0; i < 3; i++ {
+	// Modified so that only 2 messages are received from the go function.
+	for i := 0; i < 2; i++ {
 		// Wait 1s between each receive.
 		time.Sleep(1 * time.Second)
 		receivedMessage := <-messages
