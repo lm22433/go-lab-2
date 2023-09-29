@@ -50,6 +50,9 @@ func main() {
 			fmt.Println("Received an int", i)
 		case xs := <-slices:
 			fmt.Println("Received a slice", xs)
+		default:
+			fmt.Println("--- Nothing to receive, sleeping for 3s...")
+			time.Sleep(3 * time.Second)
 		}
 	}
 }
