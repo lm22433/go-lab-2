@@ -29,8 +29,10 @@ func main() {
 	go sendMessages(messages)
 
 	// Receive the 3 messages sent by the goroutine.
-	// Modified so that only 2 messages are received from the go function.
-	for i := 0; i < 2; i++ {
+	// Modified so that only 4 messages are received from the go function.
+	// When receiving 4 messages, we get deadlock because all goroutines are asleep.
+	// Will just endlessly wait for a response that is never sent.
+	for i := 0; i < 4; i++ {
 		// Wait 1s between each receive.
 		time.Sleep(1 * time.Second)
 		receivedMessage := <-messages
