@@ -31,11 +31,11 @@ func fasterSender(c chan<- []int) {
 
 // main starts the two senders and then goes into an infinite loop of receiving their messages.
 func main() {
-	slices := make(chan []int)
+	slices := make(chan []int, 10)
 	go fasterSender(slices)
-	ints := make(chan int)
+	ints := make(chan int, 10)
 	go fastSender(ints)
-	strings := make(chan string)
+	strings := make(chan string, 10)
 	go slowSender(strings)
 
 	for { // = while(true)
